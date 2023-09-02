@@ -20,4 +20,28 @@ trait IERC721<TState> {
         self: @TState, owner: ContractAddress, operator: ContractAddress
     ) -> bool;
     fn mint(ref self: TState, to: ContractAddress, token_id: u128);
+
+    // camelCase method variants
+    //
+    // NOTE: This is only for compatibility with old cairo version.
+    // new standard is snake_case method names. So this methods can
+    // be removed in future
+    //
+    // Only implement this methods in terms of snake_case methods variants.
+    // So if in future support for camelCase variants is removed contracts
+    // works normally.
+
+    fn balanceOf(self: @TState, account: ContractAddress) -> u128;
+    fn ownerOf(self: @TState, token_id: u128) -> ContractAddress;
+    fn transferFrom(ref self: TState, from: ContractAddress, to: ContractAddress, token_id: u128);
+    fn safeTransferFrom(
+        ref self: TState,
+        from: ContractAddress,
+        to: ContractAddress,
+        token_id: u128,
+        data: Span<felt252>
+    );
+    fn setApprovalForAll(ref self: TState, operator: ContractAddress, approved: bool);
+    fn getApproved(self: @TState, token_id: u128) -> ContractAddress;
+    fn isApprovedForAll(self: @TState, owner: ContractAddress, operator: ContractAddress) -> bool;
 }
